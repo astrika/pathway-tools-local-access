@@ -1,5 +1,9 @@
 import pythoncyc
 #this creates PGDB object associated with meta(MetaCyc)
 meta = pythoncyc.select_organism('meta')
-#prints pathways of compound specified
-print meta.pathways_of_compound('thiourea')
+compound = raw_input("Enter name of compound:")
+def search(compound):
+    pathways = meta.pathways_of_compound(compound)
+    print pathways
+    return pathways
+search(compound)
