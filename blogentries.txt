@@ -1,0 +1,31 @@
+STACK OVERFLOW:
+
+What methods should I use from PythonCyc API to query metabolites in BioCyc database?
+
+I am using **PythonCyc** API in order to write a query for metabolites in **BioCyc**. The purpose of this API is to communicate with the database software of BioCyc- Pathway Tools. Pathway Tools is in lisp therefore, PythonCyc creates a bridge between python and common lisp. To use this this API one must first create a PGDB object with a specified organism ID (orgid). In the example below I create a PGDB with orgid "meta". After this, I am able to call methods from PythonCyc with this object:
+
+    import sys
+    import pythoncyc
+    #this creates PGDB object associated with meta(MetaCyc)
+    meta = pythoncyc.select_organism('meta')
+    #lists pathways of specified compound
+    pathways = meta.pathways_of_compound('sucrose')
+    print pathways
+
+The query for the metabolite above, 'sucrose', provides a list a pathways:
+
+    [u'|PWY-7347|', u'|SUCSYN-PWY|', u'|PWY-7238|', u'|PWY-6527|', u'|PWY-5343|', u'|PWY-3801|', u'|PWY-7345|', u'|PWY-862|', u'|SUCUTIL-PWY|', u'|PWY66-373|', u'|PWY-621|', u'|PWY-822|', u'|SUCROSEUTIL2-PWY|', u'|PWY-6525|', u'|PWY-6524|', u'|PWY-5337|', u'|PWY-5384|']
+
+
+However if I switch this metabolite name to a common amino acid name, such as 'valine':
+
+    import sys
+    import pythoncyc
+    #this creates PGDB object associated with meta(MetaCyc)
+    meta = pythoncyc.select_organism('meta')
+    #lists pathways of specified compound
+    pathways = meta.pathways_of_compound('valine')
+    print pathways
+
+The query provides an error message that states "non coercible frame", which means it cannot find this ID. This is a common metabolite, just as sucrose, which should very well have pathway entries in database, however there are none found with this method. I have also tried synonyms of valine and other methods such as "all_pathways(cpds)" stated in API, which give me the same error message.
+What is the reason for this? Does BioCyc not list any pathways for amino acids? Or am I using an incorrect method to access amino acid information?
